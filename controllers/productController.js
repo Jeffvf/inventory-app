@@ -25,7 +25,6 @@ exports.productDetail = (req, res, next) => {
         return next(error);
       }
       res.render('product_detail', {
-        title: results.title,
         product: results
       });
     });
