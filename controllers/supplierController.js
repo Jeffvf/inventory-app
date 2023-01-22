@@ -12,7 +12,7 @@ exports.supplierCreateGet = (req, res) => {
   res.send('NOT IMPLEMENTED: Supplier create GET');
 }
 
-exports,supplierCreatePost = (req, res) => {
+exports.supplierCreatePost = (req, res) => {
   res.send('NOT IMPLEMENTED: Supplier create POST');
 }
 

@@ -12,7 +12,7 @@ exports.categoryCreateGet = (req, res) => {
   res.send('NOT IMPLEMENTED: Category create GET');
 }
 
-exports,categoryCreatePost = (req, res) => {
+exports.categoryCreatePost = (req, res) => {
   res.send('NOT IMPLEMENTED: Category create POST');
 }
 
