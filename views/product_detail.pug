@@ -21,8 +21,8 @@ block content
       each supplier in product.supplier
         dt
           a(href=supplier.url) #{supplier.name}
-        dd CNPJ: #{supplier.cnpj}
-        dd State: #{supplier.state}
+        dd #[strong CNPJ:] #{supplier.cnpj}
+        dd #[strong Location:] #{supplier.location}
 
   hr
   p
