@@ -10,6 +10,6 @@ block content
       each product in product_list
         li
           a(href=product.url) #{product.name}
-          |   R$ #{product.price}
+          |   R$ #{product.formattedPrice}
       else 
         li There are no products.
