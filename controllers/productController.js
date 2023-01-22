@@ -1,7 +1,14 @@
 const Product = require('../models/product');
 
-exports.productList = (req, res) => {
-  res.send('NOT IMPLEMENTED: Product list');
+exports.productList = (req, res, next) => {
+  Product.find({}, "name price")
+    .sort({ name: 1 })
+    .exec(function(err, results){
+      if(err){
+        return next(err);
+      }
+      res.render('index', { title: "Products", product_list: results });
+    })
 }
 
 exports.productDetail = (req, res) => {
@@ -12,7 +19,7 @@ exports.productCreateGet = (req, res) => {
   res.send('NOT IMPLEMENTED: Product create GET');
 }
 
-exports,productCreatePost = (req, res) => {
+exports.productCreatePost = (req, res) => {
   res.send('NOT IMPLEMENTED: Product create POST');
 }
 
