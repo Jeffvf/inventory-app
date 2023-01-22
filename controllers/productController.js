@@ -11,8 +11,24 @@ exports.productList = (req, res, next) => {
     })
 }
 
-exports.productDetail = (req, res) => {
-  res.send('NOT IMPLEMENTED: Product detail');
+exports.productDetail = (req, res, next) => {
+  Product.findById(req.params.id)
+    .populate('category')
+    .populate('supplier')
+    .exec(function(err, results) {
+      if(err){
+        return next(err);
+      }
+      if(results == null){
+        const error = new Error('Product not found');
+        error.status = 404;
+        return next(error);
+      }
+      res.render('product_detail', {
+        title: results.title,
+        product: results
+      });
+    });
 }
 
 exports.productCreateGet = (req, res) => {

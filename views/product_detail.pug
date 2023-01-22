@@ -1,0 +1,31 @@
+extends layout
+
+block content
+
+  h1 #{product.name}
+  p #{product.description}
+  p #[strong Price:] R$ #{product.formattedPrice}
+  p #[strong Category:] #{product.category.name}
+  p #[strong Quantity:] 
+    if(product.quantity > 0 && product.quantity <= 10)
+      span.text-warning #{product.quantity}
+    else if(product.quantity > 10)
+      span.text-success #{product.quantity}
+    else
+      span.text-danger #{product.quantity}
+  div(style='margin-left:20px;margin-top:20px')
+
+    h4 Suppliers
+
+    dl
+      each supplier in product.supplier
+        dt
+          a(href=supplier.url) #{supplier.name}
+        dd CNPJ: #{supplier.cnpj}
+        dd State: #{supplier.state}
+
+  hr
+  p
+    a(href=product.url+'/delete') Delete Product
+  p
+    a(href=product.url+'/update') Update Product
