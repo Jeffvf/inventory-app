@@ -11,7 +11,7 @@ var app = express();
 
 const mongoose = requise('mongoose');
 mongoose.set('strictQuery', false);
-const mongoDB = 'mongodb+srv://admin:4mP3XN@GkjwcvFU@cluster0.ognltns.mongodb.net/inventory?retryWrites=true&w=majority';
+const mongoDB = 'mongodb+srv://admin:157359@cluster0.ognltns.mongodb.net/inventory?retryWrites=true&w=majority';
 
 main.catch(err => console.log(err));
 async function main(){
