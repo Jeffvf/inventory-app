@@ -13,4 +13,16 @@ SupplierSchema.virtual("url").get(function () {
   return `/inventory/supplier/${this._id}`;
 });
 
+SupplierSchema.virtual("location").get(function() {
+  let loc = "";
+
+  if(this.city != undefined){
+    loc += this.city;
+    loc += " - ";
+  }
+  loc += this.state;
+
+  return loc;
+})
+
 module.exports = mongoose.model("Supplier", SupplierSchema);
