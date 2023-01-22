@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title 
+
+  if error
+    p Error getting dynamic content.
+  else
+    ul
+      each supplier in supplier_list
+        li
+          a(href=supplier.url) #{supplier.name}
+          |  (#{supplier.state})
+      else 
+        li There are no suppliers.
