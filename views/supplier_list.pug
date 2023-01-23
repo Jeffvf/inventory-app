@@ -4,7 +4,7 @@ block content
   h1= title 
 
   if error
-    p Error getting dynamic content.
+    p Erro ao requisitar conteúdo.
   else
     ul
       each supplier in supplier_list
@@ -12,4 +12,4 @@ block content
           a(href=supplier.url) #{supplier.name}
           |  (#{supplier.state})
       else 
-        li There are no suppliers.
+        li Não há fornecedores para se exibir.

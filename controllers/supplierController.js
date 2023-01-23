@@ -9,7 +9,7 @@ exports.supplierList = (req, res, next) => {
         return next(err);
       }
       res.render('supplier_list', {
-        title: 'Supplier List',
+        title: 'Fornecedores',
         supplier_list: result
       });
     });
@@ -30,7 +30,7 @@ exports.supplierDetail = (req, res, next) => {
         next(err);
       }
       if(results.supplier == null){
-        const error = new Error('Supplier not found');
+        const error = new Error('Fornecedor não encontrado');
         error.status = 404;
 
         return next(error);

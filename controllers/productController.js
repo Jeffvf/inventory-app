@@ -7,7 +7,10 @@ exports.productList = (req, res, next) => {
       if(err){
         return next(err);
       }
-      res.render('index', { title: "Products", product_list: results });
+      res.render('index', { 
+        title: "Produtos",
+        product_list: results 
+      });
     })
 }
 
@@ -20,7 +23,7 @@ exports.productDetail = (req, res, next) => {
         return next(err);
       }
       if(results == null){
-        const error = new Error('Product not found');
+        const error = new Error('Produto não encontrado');
         error.status = 404;
         return next(error);
       }

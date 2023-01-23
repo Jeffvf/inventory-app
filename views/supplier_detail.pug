@@ -4,20 +4,20 @@ block content
 
   h1 #{supplier.name}
   h3 CNPJ: #{supplier.cnpj}
-  p #[strong Location:] #{supplier.location}
+  p #[strong Localização:] #{supplier.location}
 
   div(style='margin-left:20px;margin-top:20px')
 
-    h4 Products:
+    h4 Produtos:
 
     dl
       each product in supplier_products
         dt
           a(href=product.url) #{product.name}
       else
-        p This supplier does not provide any products.
+        p Esse fornecedor não supre nenhum produto.
   hr
   p
-    a(href=supplier.url+'/delete') Delete Supplier
+    a(href=supplier.url+'/delete') Deletar Fornecedor
   p
-    a(href=supplier.url+'/update') Update Supplier
+    a(href=supplier.url+'/update') Atualizar Fornecedor
