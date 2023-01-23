@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title 
+
+  if error
+    p Error getting dynamic content.
+  else
+    ul
+      each category in categories
+        li
+          a(href=category.url) #{category.name}
+      else 
+        li There are no categories.

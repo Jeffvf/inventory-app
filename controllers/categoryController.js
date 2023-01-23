@@ -1,7 +1,17 @@
 const Category = require('../models/category');
 
-exports.categoryList = (req, res) => {
-  res.send('NOT IMPLEMENTED: Category list');
+exports.categoryList = (req, res, next) => {
+  Category.find()
+  .sort({ name: 1 })
+  .exec(function(err, results){
+    if(err){
+      return next(err);
+    }
+    res.render('category_list', {
+      title: 'Categories',
+      categories: results
+    });
+  });
 }
 
 exports.categoryDetail = (req, res) => {
