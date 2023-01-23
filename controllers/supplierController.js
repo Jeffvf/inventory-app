@@ -1,6 +1,7 @@
 const Supplier = require('../models/supplier');
 const Product = require('../models/product');
 const async = require('async');
+const { body, validationResult } = require('express-validator');
 
 exports.supplierList = (req, res, next) => {
   Supplier.find({}, 'name state')
@@ -44,12 +45,54 @@ exports.supplierDetail = (req, res, next) => {
 }
 
 exports.supplierCreateGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: Supplier create GET');
+  res.render('supplier_form', { title: 'Adicionar fornecedor' });
 }
 
-exports.supplierCreatePost = (req, res) => {
-  res.send('NOT IMPLEMENTED: Supplier create POST');
-}
+exports.supplierCreatePost = [
+  body('name', 'Campo nome não deve ser vazio.')
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body('cnpj', 'Campo CNPJ deve conter 14 caracteres')
+    .trim()
+    .isLength({ min: 14, max: 14 })
+    .escape(),
+  body('city', 'Nome de cidade inválido')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+  body('state', 'Campo estado não deve ser vazio.')
+    .trim()
+    .isLength({ min:2 })
+    .escape(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    const supplier = new Supplier({
+      name: req.body.name,
+      cnpj: req.body.cnpj,
+      city: req.body.city,
+      state: req.body.state
+    });
+
+    if(!errors.isEmpty()){
+      res.render('supplier_form', {
+        title: 'Adicionar fornecedor',
+        errors: errors.array(),
+        supplier
+      });
+      return;
+    }
+
+    supplier.save((err) => {
+      if(err){
+        return next(err);
+      }
+      res.redirect(supplier.url);
+    });
+  }
+];
 
 exports.supplierUpdateGet = (req, res) => {
   res.send('NOT IMPLEMENTED: Supplier update GET');

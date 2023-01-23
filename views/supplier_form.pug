@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='name') Nome:
+      input#name.form-control(type='text' placeholder='Nome' name='name' required='true' value=(undefined===supplier ? '' : supplier.name) maxLength=60)
+    div.form-group
+      label(for='cnpj') CNPJ (Apenas números):
+      input#cnpj.form-control(type='number' placeholder='CNPJ' name='cnpj' required='true' value=(undefined===supplier ? '' : supplier.cnpj))
+    div.form-group
+      label(for='city') Cidade:
+      input#city.form-control(type='text' placeholder='Cidade' name='city' value=(undefined===supplier ? '' : supplier.city))
+    div.form-group
+      label(for='state') Estado (sigla):
+      input#state.form-control(type='text' placeholder='SP' name='state' required='true' value=(undefined===supplier ? '' : supplier.state) maxLength=2)
+    button.btn.btn-primary(type='submit') Enviar
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
