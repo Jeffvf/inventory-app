@@ -1,6 +1,7 @@
 const Category = require('../models/category');
 const Product = require('../models/product');
 const async = require('async');
+const {body, validationResult} = require('express-validator');
 
 exports.categoryList = (req, res, next) => {
   Category.find()
@@ -43,13 +44,39 @@ exports.categoryDetail = (req, res, next) => {
   );
 }
 
-exports.categoryCreateGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: Category create GET');
+exports.categoryCreateGet = (req, res, next) => {
+  res.render('category_form', { title:'Adicionar categoria' });
 }
 
-exports.categoryCreatePost = (req, res) => {
-  res.send('NOT IMPLEMENTED: Category create POST');
-}
+exports.categoryCreatePost = [
+  body('name', 'Campo nome não deve ser vazio.')
+    .trim()
+    .isLength({ min:1 })
+    .escape(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    
+    const category = new Category({
+      name: req.body.name
+    });
+
+    if(!errors.isEmpty()){
+      res.render('category_form', {
+        title: 'Adicionar categoria',
+        errors: errors.array(),
+        category
+      });
+      return;
+    }
+
+    category.save((err) => {
+      if(err){
+        return next(err);
+      }
+      res.redirect(category.url);
+    });
+  }
+]
 
 exports.categoryUpdateGet = (req, res) => {
   res.send('NOT IMPLEMENTED: Category update GET');
