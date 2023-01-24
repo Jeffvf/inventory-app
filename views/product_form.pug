@@ -1,0 +1,86 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='name') Nome:
+      input#name.form-control(type='text' placeholder='Nome' name='name' required='true' value=(undefined===product ? '' : product.name) maxLength=80)
+    div.form-group
+      label(for='description') Descrição:
+      input#description.form-control(type='text' placeholder='Descrição' name='description' value=(undefined===product ? '' : product.description) maxLength=400)
+    div.form-group
+      label(for='quantity') Quantidade:
+      input#quantity.form-control(type='number' placeholder='0' name='quantity' value=(undefined===product ? 0 : product.quantity))
+    div.form-group
+      label(for='price') Preço:
+      input#price.form-control(type='number' step="0.01" placeholder='0' name='price' required='true' value=(undefined===product ? '' : product.price))
+    div.form-group
+      label(for='category') Categoria:
+      select#category.form-control(type='select' placeholder='Selecione uma categoria' name='category' required='true' )
+        - categories.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+        for category in categories
+          if product
+            option(
+              value=category._id
+              selected=(
+                category._id.toString()==product.category._id
+                || category._id.toString()==product.category
+              ) ? 'selected' : false
+            ) #{category.name}
+          else
+            option(value=category._id) #{category.name}
+    div.form-group
+      label(for='supplier') Fornecedor:
+      select#supplier.form-control(type='select' name='supplier' required='true' )
+        - suppliers.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+        option(value='' disabled selected hidden) Nenhum
+        for supplier in suppliers
+          if product
+            option(
+              value=supplier._id
+              selected=(
+                supplier._id.toString()==product.supplier[0]._id
+                || supplier._id.toString()==product.supplier[0]
+              ) ? 'selected' : false
+            ) #{supplier.name} - #{supplier.location}
+          else
+            option(value=supplier._id) #{supplier.name} - #{supplier.location}
+    div.form-group
+      label(for='supplier1') Fornecedor:
+      select#supplier1.form-control(type='select' name='supplier1')
+        - suppliers.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+        option(value='' disabled selected hidden) Nenhum
+        for supplier in suppliers
+          if product && product.supplier.length > 1 
+              option(
+                value=supplier._id
+                selected=(
+                  supplier._id.toString()==product.supplier[1]._id
+                  || supplier._id.toString()==product.supplier[1]
+                ) ? 'selected' : false
+              ) #{supplier.name} - #{supplier.location}
+          else
+            option(value=supplier._id) #{supplier.name} - #{supplier.location}
+    div.form-group
+      label(for='supplier2') Fornecedor:
+      select#supplier2.form-control(type='select' name='supplier2')
+        - suppliers.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+        option(value='' disabled selected hidden) Nenhum
+        for supplier in suppliers
+          if product && product.supplier.length > 2 
+              option(
+                value=supplier._id
+                selected=(
+                  supplier._id.toString()==product.supplier[2]._id
+                  || supplier._id.toString()==product.supplier[2]
+                ) ? 'selected' : false
+              ) #{supplier.name} - #{supplier.location}
+          else
+            option(value=supplier._id) #{supplier.name} - #{supplier.location}
+    button.btn.btn-primary(type='submit') Enviar
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
