@@ -13,7 +13,7 @@ var app = express();
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 const devURL = 'mongodb+srv://admin:157359@cluster0.ognltns.mongodb.net/inventory?retryWrites=true&w=majority';
-const mongoDB = process.env.MONGODB_URI || devURL;
+const mongoDB = process.env.MONGODB_URL || devURL;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
