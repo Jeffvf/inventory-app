@@ -78,13 +78,55 @@ exports.categoryCreatePost = [
   }
 ]
 
-exports.categoryUpdateGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: Category update GET');
+exports.categoryUpdateGet = (req, res, next) => {
+  Category.findById(req.params.id, (err, category) => {
+    if(err){
+      return next(err);
+    }
+    if(category == null){
+      const error = new Error('Categoria não encontrada');
+      error.status = 404
+
+      return next(error);
+    }
+
+    res.render('category_form', {
+      title: 'Atualizar categoria',
+      category
+    });
+  });
 }
 
-exports.categoryUpdatePost = (req, res) => {
-  res.send('NOT IMPLEMENTED: Category update POST');
-}
+exports.categoryUpdatePost = [
+  body('name', 'Campo nome não deve ser vazio.')
+    .trim()
+    .isLength({ min:1 })
+    .escape(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    
+    const category = new Category({
+      name: req.body.name,
+      _id: req.params.id
+    });
+
+    if(!errors.isEmpty()){
+      res.render('category_form', {
+        title: 'Atualizar categoria',
+        errors: errors.array(),
+        category
+      });
+      return;
+    }
+
+    Category.findByIdAndUpdate(req.params.id, category, {}, function(err, doc) {
+      if(err){
+        return next(err);
+      }
+      res.redirect(doc.url);
+    })
+  }
+]
 
 exports.categoryDeleteGet = (req, res) => {
   res.send('NOT IMPLEMENTED: Category delete GET');
