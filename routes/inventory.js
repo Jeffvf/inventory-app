@@ -7,7 +7,7 @@ const productController = require('../controllers/productController');
 
 // Category routes
 
-router.get('/', productController.productList);
+router.get('/', productController.index);
 
 router.get('/category/create', categoryController.categoryCreateGet);
 

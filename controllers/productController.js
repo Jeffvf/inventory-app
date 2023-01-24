@@ -4,6 +4,48 @@ const Supplier = require('../models/supplier');
 const async = require('async');
 const { body, validationResult } = require('express-validator');
 
+exports.index = (req, res, next) => {
+  async.parallel(
+    {
+      inStockProductCount(callback){
+        Product.countDocuments({})
+        .where('quantity')
+        .gt(10)
+        .exec(callback);
+      },
+      lowStockProductCount(callback){
+        Product.countDocuments({})
+        .where('quantity')
+        .gt(0)
+        .lte(10)
+        .exec(callback);
+      },
+      outOfStockProductCount(callback){
+        Product.countDocuments({})
+        .where('quantity')
+        .eq(0)
+        .exec(callback);
+      },
+      productCount(callback){
+        Product.countDocuments({}).exec(callback);
+      },
+      categoryCount(callback){
+        Category.countDocuments({}).exec(callback);
+      },
+      supplierCount(callback){
+        Supplier.countDocuments({}).exec(callback);
+      }
+    },
+    (err, results) => {
+      res.render('index', {
+        title: 'Inventário',
+        data: results,
+        error: err
+      });
+    }
+  );
+}
+
 exports.productList = (req, res, next) => {
   Product.find({}, "name price")
     .sort({ name: 1 })
@@ -11,7 +53,7 @@ exports.productList = (req, res, next) => {
       if(err){
         return next(err);
       }
-      res.render('index', { 
+      res.render('product_list', { 
         title: "Produtos",
         product_list: results 
       });

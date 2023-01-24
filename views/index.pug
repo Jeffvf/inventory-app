@@ -4,12 +4,14 @@ block content
   h1= title 
 
   if error
-    p Erro ao requisitar conteúdo.
+    p Erro ao requisitar conteúdo. #{error}
   else
+    p Informações gerais:
     ul
-      each product in product_list
-        li
-          a(href=product.url) #{product.name}
-          |   R$ #{product.formattedPrice}
-      else 
-        li Não há produtos para se exibir.
+      li #[strong Produtos:] #{data.productCount}
+      ul
+        li #[strong Em estoque:] #{data.inStockProductCount}
+        li #[strong Baixo estoque:] #{data.lowStockProductCount}
+        li #[strong Sem estoque: ] #{data.outOfStockProductCount}
+      li #[strong Categorias:] #{data.categoryCount}
+      li #[strong Fornecedores:] #{data.supplierCount}
