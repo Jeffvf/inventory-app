@@ -4,7 +4,7 @@ Site simples aplicando conhecimentos sobre CRUD com NodeJS e Express
 para gerenciamento de um inventário com informações salvas utilizando
 o banco de dados MongoDB.
 
-Você pode utilizar essa aplicação online clicando [aqui!] (inventory-app-production-e016.up.railway.app)
+Você pode utilizar essa aplicação online clicando [aqui!](https://inventory-app-production-e016.up.railway.app)
 
 ## Pré-requisitos
 
