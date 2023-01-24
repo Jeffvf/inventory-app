@@ -233,10 +233,29 @@ exports.productUpdatePost = [
   }
 ]
 
-exports.productDeleteGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: Product delete GET');
+exports.productDeleteGet = (req, res, next) => {
+  Product.findById(req.params.id, (err, product) => {
+    if(err){
+      return next(err);
+    }
+    if(product == null){
+      const error = new Error('Produto não encontrado');
+      error.status = 404;
+
+      return next(error);
+    }
+    res.render('product_delete', {
+      title: 'Excluir produto',
+      product
+    });
+  });
 }
 
-exports.productDeletePost = (req, res) => {
-  res.send('NOT IMPLEMENTED: Product delete POST');
+exports.productDeletePost = (req, res, next) => {
+  Product.findByIdAndRemove(req.params.id, {}, (err) => {
+    if(err){
+      return next(err);
+    }
+    res.redirect('/inventory/products');
+  })
 }

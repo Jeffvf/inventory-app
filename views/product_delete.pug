@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1 #{title}: #{product.name}
+  p #{product.description}
+  
+  if product.quantity == 1
+    p Esse produto ainda possui #{product.quantity} unidade em estoque. Deseja excluí-lo mesmo assim?
+  else if product.quantity > 1
+    p Esse produto ainda possui #{product.quantity} unidades em estoque. Deseja excluí-lo mesmo assim?
+  else 
+    p Tem certeza de que deseja excluir este produto?
+
+  form(method='POST' action='')
+    div.form-group
+      input#id.form-control(type='hidden',name='id', required='true', value=product._id )
+
+    button.btn.btn-primary(type='submit') Excluir
