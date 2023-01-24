@@ -1,4 +1,4 @@
-# Local Library
+# Inventory App
 
 Site simples aplicando conhecimentos sobre CRUD com NodeJS e Express
 para gerenciamento de um inventário com informações salvas utilizando
