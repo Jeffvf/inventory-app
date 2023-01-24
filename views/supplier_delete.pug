@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1 #{title}: #{supplier.name}
+
+  if products.length
+
+    p #[strong Delete os produtos abaixo antes de excluir esse fornecedor.]
+
+    div(style='margin-left:20px;margin-top:20px')
+
+      h4 Produtos
+
+      dl
+      each product in products
+        dt
+          a(href=product.url) #{product.name}
+
+  else
+    p Tem certeza de que deseja excluir este fornecedor?
+
+    form(method='POST' action='')
+      div.form-group
+        input#id.form-control(type='hidden',name='id', required='true', value=supplier._id )
+
+      button.btn.btn-primary(type='submit') Excluir

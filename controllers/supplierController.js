@@ -2,6 +2,7 @@ const Supplier = require('../models/supplier');
 const Product = require('../models/product');
 const async = require('async');
 const { body, validationResult } = require('express-validator');
+const product = require('../models/product');
 
 exports.supplierList = (req, res, next) => {
   Supplier.find({}, 'name state')
@@ -160,10 +161,62 @@ exports.supplierUpdatePost = [
   }
 ]
 
-exports.supplierDeleteGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: Supplier delete GET');
+exports.supplierDeleteGet = (req, res, next) => {
+  async.parallel(
+    {
+      supplier(callback){
+        Supplier.findById(req.params.id).exec(callback);
+      },
+      products(callback){
+        Product.find({ supplier: req.params.id }).exec(callback);
+      }
+    },
+    (err, results) => {
+      if(err){
+        return next(err);
+      }
+      if(results.supplier == null){
+        const error = new Error('Fornecedor não encontrado');
+        error.status = 404;
+        return next(error);
+      }
+      res.render('supplier_delete', {
+        title: 'Excluir fornecedor',
+        supplier: results.supplier,
+        products: results.products
+      });
+    }
+  );
 }
 
-exports.supplierDeletePost = (req, res) => {
-  res.send('NOT IMPLEMENTED: Supplier delete POST');
+exports.supplierDeletePost = (req, res, next) => {
+  async.parallel(
+    {
+      supplier(callback){
+        Supplier.findById(req.params.id).exec(callback);
+      },
+      products(callback){
+        Product.find({ supplier: req.params.id }).exec(callback);
+      }
+    },
+    (err, results) => {
+      if(err){
+        return next(err);
+      }
+      if(results.products.length){
+        res.render('supplier_delete', {
+          title: 'Excluir fornecedor',
+          supplier: results.supplier,
+          products: results.products
+        });
+        return;
+      }
+      Supplier.findByIdAndRemove(req.params.id, {}, (err) => {
+        if(err){
+          return next(err);
+        }
+        res.redirect('/inventory/suppliers');
+      })
+    }
+  )
 }
