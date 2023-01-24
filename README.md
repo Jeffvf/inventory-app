@@ -1,7 +1,7 @@
 # Local Library
 
 Site simples aplicando conhecimentos sobre CRUD com NodeJS e Express
-para gerenciamento de um inventário com informações salvar utilizando
+para gerenciamento de um inventário com informações salvas utilizando
 o banco de dados MongoDB.
 
 ## Pré-requisitos
@@ -21,3 +21,5 @@ Para executar o projeto utilize
 ```
 npm run start
 ```
+
+E em seguida navegue para localhost:3000
