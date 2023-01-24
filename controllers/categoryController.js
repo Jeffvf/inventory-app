@@ -128,10 +128,63 @@ exports.categoryUpdatePost = [
   }
 ]
 
-exports.categoryDeleteGet = (req, res) => {
-  res.send('NOT IMPLEMENTED: Category delete GET');
+exports.categoryDeleteGet = (req, res, next) => {
+  async.parallel(
+    {
+      category(callback){
+        Category.findById(req.params.id).exec(callback);
+      },
+      products(callback){
+        Product.find({ category: req.params.id }).exec(callback);
+      }
+    },
+    (err, results) => {
+      if(err){
+        return next(err);
+      }
+      if(results.category == null){
+        const error = new Error("Categoria não encontrada");
+        error.status = 404;
+
+        return next(error);
+      }
+      res.render('category_delete', {
+        title: 'Deletar categoria',
+        products: results.products,
+        category: results.category
+      });
+    }
+  );
 }
 
-exports.categoryDeletePost = (req, res) => {
-  res.send('NOT IMPLEMENTED: Category delete POST');
+exports.categoryDeletePost = (req, res, next) => {
+  async.parallel(
+    {
+      category(callback){
+        Category.findById(req.params.id).exec(callback);
+      },
+      products(callback){
+        Product.find({ category: req.params.id }).exec(callback);
+      }
+    },
+    (err, results) => {
+      if(err){
+        return next(err);
+      }
+      if(results.products.length){
+        res.render('category_delete', {
+        title: 'Excluir categoria',
+        products: results.products,
+        category: results.category
+        });
+        return;
+      }
+      Category.findByIdAndRemove(req.params.id, (err) => {
+        if(err){
+          return next(err);
+        }
+        res.redirect('/inventory/categories');
+      });
+    }
+  );
 }
